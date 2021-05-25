@@ -5,6 +5,21 @@ import express from "express";
 const app = express();
 const PORT = 4000;
 
+const gossipMiddleware = (req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+}
+
+const privateMiddleware = (req, res, next) => {
+    const url = req.url;
+    if(url === "/protected"){
+        return res.send("not allowed");
+    }
+    else{
+        next();
+    }
+}
+
 /* 서버 : 항상 켜져있는 컴퓨터.
 request를 listening하고 있음.
 request : 접속하려는 사이트에 접속하겠다고 브라우저가 요청하는 것 ex.주소입력
@@ -26,10 +41,18 @@ const handleHome = (req, res) => {
 const handleLogin = (req, res) => {
     return res.send("Login!");
 };
-// 여기서 get request를 받으면 express는 handleHome 함수로 req, res 오브젝트를 넘겨줌. addEventlistener에서 event 오브젝트를 넘겨주듯이!
-app.get("/", handleHome);/* 이 상태에서는 우리가 응답을 해주지 않았기 때문에 브라우저는 계속 기다리기만 함.*/
-app.get("/login", handleLogin);
 
+const handleProtected = (req, res) =>{
+    return res.send("welcome to the private lounge");
+}
+
+// .use : 글로벌 미들웨어를 만들어줌. 내가 만든 미들웨어를 모든 라우터에서 사용할 수 있음. 반드시 순서를 지켜야함. 호출할 때는 use먼저 호출하고 get을 호출해야함. 만약 순서를 바꾸면 use함수는 실행하지 않음.
+app.use(gossipMiddleware);
+app.use(privateMiddleware);
+// 여기서 get request를 받으면 express는 handleHome 함수로 req, res 오브젝트를 넘겨줌. addEventlistener에서 event 오브젝트를 넘겨주듯이!
+app.get("/", gossipMiddleware, handleHome);/* 이 상태에서는 우리가 응답을 해주지 않았기 때문에 브라우저는 계속 기다리기만 함.*/
+app.get("/login", handleLogin);
+app.get('/protected', handleProtected);
 
 // 어떤 port를 listening해야할지 정해야함. 보통 높은 숫자의 포트는 비어있는 경우가 많음.
 const handlelistening = () => console.log(`Server Listening on port http://localhost:${PORT}`);
