@@ -1,11 +1,14 @@
 import express from "express";
-import {join} from "../controllers/userController";
-import {trending} from "../controllers/videoController";
+import {join, login} from "../controllers/userController";
+import {trending, search} from "../controllers/videoController";
 
 const globalRouter = express.Router();
 
 globalRouter.get("/", trending);
 globalRouter.get("/join", join);
+globalRouter.get("/login", login);
+globalRouter.get("/search", search);
+
 
 //각각의 파일은 독립된 모듈임. 만약 이곳에 있는 내용을 사용하려면 export해야함.
 // export와 export default는 차이가 있음

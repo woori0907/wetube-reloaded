@@ -7,11 +7,14 @@
 /login -> Login
 /search -> Search
 
-/users/edit -> Edit user
-/users/delete -> Delete user
+/users/:id -> see user profile
+/users/logout -> logout
+/users/edit -> edit my profile
+/users/delete -> Delete my profile
 
-/videos/watch -> Watch Video
-/videos/edit -> Edit Video
-/videos/delete -> Delete Video
-/videos/comments -> Comment on a video
-/videos/comments/delete -> Delete A Comment of a Video
+/videos/:id -> Watch Video
+/videos/upload -> upload video
+/videos/:id/edit -> Edit Video
+/videos/:id/delete -> Delete Video
+/videos/:id/comments -> Comment on a video
+/videos/:id/comments/delete -> Delete A Comment of a Video
