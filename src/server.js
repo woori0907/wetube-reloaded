@@ -46,7 +46,7 @@ const handleProtected = (req, res) =>{
     return res.send("welcome to the private lounge");
 }
 
-// .use : 글로벌 미들웨어를 만들어줌. 내가 만든 미들웨어를 모든 라우터에서 사용할 수 있음. 반드시 순서를 지켜야함. 호출할 때는 use먼저 호출하고 get을 호출해야함. 만약 순서를 바꾸면 use함수는 실행하지 않음.
+// .use : 글로벌 미들웨어를 만들어줌. 내가 만든 미들웨어를 모든 라우터에서 사용할 수 있음. 반드시 순서를 지켜야함. 호출할 때는 use먼저 호출하고 get을 호출해야함. 만약 순서를 바꾸면 use함수는 실행하지 않음. 미들웨어는 글로벌로 할 수도 있고, get 함수에 인자로 주면서 한곳에서만 실행할 수 있게도 할 수 있음. 다만 미들웨어가 제대로 작동하기 위해서는 next함수를 반드시! 호출해야함. 만약 하지 않으면 일반적인 controller와 다를바 없음.
 app.use(gossipMiddleware);
 app.use(privateMiddleware);
 // 여기서 get request를 받으면 express는 handleHome 함수로 req, res 오브젝트를 넘겨줌. addEventlistener에서 event 오브젝트를 넘겨주듯이!
